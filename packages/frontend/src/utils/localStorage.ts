@@ -2,8 +2,8 @@ import { CharacterNameKeys } from "@/constants/characters";
 
 // Define the structure for character data in local storage
 export interface CharacterStorage {
-  found: Record<CharacterNameKeys, boolean>;
-  codes: Record<CharacterNameKeys, string[]>;
+  found: Partial<Record<CharacterNameKeys, boolean>>;
+  codes: Partial<Record<CharacterNameKeys, string[]>>;
 }
 
 // Local storage key
@@ -43,44 +43,4 @@ export function saveCharacterData(data: CharacterStorage): void {
   } catch (error) {
     console.error('Failed to save character data to local storage:', error);
   }
-}
-
-/**
- * Toggle found status for a character
- */
-export function toggleCharacterFound(characterCode: CharacterNameKeys): void {
-  const data = getCharacterData();
-  data.found = {
-    ...data.found,
-    [characterCode]: !data.found[characterCode]
-  };
-  saveCharacterData(data);
-}
-
-/**
- * Save egg codes for a character
- */
-export function saveCharacterCodes(characterCode: CharacterNameKeys, codes: string[]): void {
-  const data = getCharacterData();
-  data.codes = {
-    ...data.codes,
-    [characterCode]: codes
-  };
-  saveCharacterData(data);
-}
-
-/**
- * Get egg codes for a character
- */
-export function getCharacterCodes(characterCode: CharacterNameKeys): string[] {
-  const data = getCharacterData();
-  return data.codes[characterCode] || [];
-}
-
-/**
- * Check if a character is found
- */
-export function isCharacterFound(characterCode: CharacterNameKeys): boolean {
-  const data = getCharacterData();
-  return !!data.found[characterCode];
 }
