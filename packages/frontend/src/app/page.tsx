@@ -134,7 +134,6 @@ export default function Home() {
         isOpen={viewAllCodesModalOpen}
         onClose={() => setViewAllCodesModalOpen(false)}
         codes={codes}
-        found={found}
       />
     </div>
   );

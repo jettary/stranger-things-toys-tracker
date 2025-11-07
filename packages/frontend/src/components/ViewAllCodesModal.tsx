@@ -6,14 +6,12 @@ interface ViewAllCodesModalProps {
   isOpen: boolean;
   onClose: () => void;
   codes: Partial<Record<CharacterNameKeys, string[]>>;
-  found: Partial<Record<CharacterNameKeys, boolean>>;
 }
 
 export default function ViewAllCodesModal({
   isOpen,
   onClose,
   codes,
-  found,
 }: ViewAllCodesModalProps) {
   if (!isOpen) return null;
 
