@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CharacterCard from '../components/CharacterCard';
+import { CharacterName, ALL_CHARACTERS } from '../constants/characters';
 
 // Define the structure for character data
 interface Character {
@@ -12,15 +13,17 @@ interface Character {
 }
 
 export default function Home() {
-  // Define the characters with their positions in the grid
-  const characters: Character[] = Array.from({ length: 24 }, (_, index) => {
+  // Define the characters with their positions in the grid based on CharacterName enum
+  const characters: Character[] = Object.values(CharacterName).map((name, index) => {
+    // Calculate row and column based on the position in the enum
+    // The enum is organized in groups of 6 characters per row
     const row = Math.floor(index / 6);
     const col = index % 6;
     return {
       id: index + 1,
       row,
       col,
-      name: `Character ${index + 1}`,
+      name,
     };
   });
 
