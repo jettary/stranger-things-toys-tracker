@@ -30,40 +30,79 @@ export default function ViewAllCodesModal({
     }
   });
 
-  // Get all unique codes
-  const allCodes = Object.keys(codeToCharacters);
+  // Get all found codes
+  const foundCodes = Object.keys(codeToCharacters);
   
-  // Sort codes alphabetically
-  const sortedCodes = allCodes.sort();
+  // Sort found codes alphabetically
+  const sortedFoundCodes = foundCodes.sort();
 
-  // Count total codes
-  const totalCodes = sortedCodes.length;
+  // Generate all possible codes from 1 to 50
+  const allPossibleCodes = Array.from({ length: 50 }, (_, i) => String(i + 1));
+  
+  // Create "not found" codes list by filtering out found codes
+  const notFoundCodes = allPossibleCodes.filter(code => !foundCodes.includes(code));
+  
+  // Count total found codes
+  const totalFoundCodes = sortedFoundCodes.length;
+  
+  // Count total not found codes
+  const totalNotFoundCodes = notFoundCodes.length;
+
+  console.log({totalFoundCodes, totalNotFoundCodes});
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
         <h2 className="text-xl font-bold mb-4">All Egg Codes</h2>
-        <p className="text-gray-600 mb-4">
-          Total codes: <span className="font-bold">{totalCodes}</span>
-        </p>
-
-        {sortedCodes.length > 0 ? (
-          <ul className="list-disc pl-5 space-y-2">
-            {sortedCodes.map((code) => {
-              const characters = codeToCharacters[code];
-              const characterNames = characters.map(char => CharacterName[char]);
-              
-              return (
-                <li key={code} className="text-lg">
+        
+        {/* Found Codes Section */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">Found Codes</h3>
+          <p className="text-gray-600 mb-3">
+            Total found: <span className="font-bold">{totalFoundCodes}</span>
+          </p>
+          
+          {sortedFoundCodes.length > 0 ? (
+            <ul className="pl-5 space-y-2">
+              {sortedFoundCodes.map((code) => {
+                const characters = codeToCharacters[code];
+                const characterNames = characters.map(char => CharacterName[char]);
+                
+                return (
+                  <li key={code} className="text-lg flex items-start">
+                    <span className="text-green-500 mr-2">✓</span>
+                    <div>
+                      <span className="font-medium">{code}</span>
+                      <span className="text-gray-600"> ({characterNames.join(', ')})</span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="text-gray-500 py-2">No codes found yet</p>
+          )}
+        </div>
+        
+        {/* Not Found Codes Section */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Not Found Codes</h3>
+          <p className="text-gray-600 mb-3">
+            Total not found: <span className="font-bold">{totalNotFoundCodes}</span>
+          </p>
+          
+          {notFoundCodes.length > 0 ? (
+            <ul className="grid grid-cols-5 gap-2 px-2">
+              {notFoundCodes.map((code) => (
+                <li key={code} className="text-center py-1 bg-gray-50 rounded">
                   <span className="font-medium">{code}</span>
-                  <span className="text-gray-600"> ({characterNames.join(', ')})</span>
                 </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <p className="text-gray-500 text-center py-8">No egg codes added yet</p>
-        )}
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 py-2">All codes have been found!</p>
+          )}
+        </div>
 
         <div className="flex justify-end mt-6">
           <button
