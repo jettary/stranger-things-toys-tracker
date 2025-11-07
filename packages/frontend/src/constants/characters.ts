@@ -32,7 +32,9 @@ export enum CharacterName {
   ROBIN_UD = "Robin Buckley (Upside Down)",
 }
 
+export type CharacterNameKeys = keyof typeof CharacterName;
+
 /**
- * Array of all character names for easy iteration
+ * Array of all character Keys for easy iteration
  */
-export const ALL_CHARACTERS = Object.values(CharacterName);
+export const ALL_CHARACTERS: string[] = Object.keys(CharacterName);

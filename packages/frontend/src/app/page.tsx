@@ -2,28 +2,20 @@
 
 import { useState } from 'react';
 import CharacterCard from '../components/CharacterCard';
-import { CharacterName, ALL_CHARACTERS } from '../constants/characters';
+import { CharacterName, ALL_CHARACTERS, CharacterNameKeys } from '@/constants/characters';
 
 // Define the structure for character data
 interface Character {
   id: number;
-  row: number;
-  col: number;
-  name: string;
+  characterCode: CharacterNameKeys;
 }
 
 export default function Home() {
-  // Define the characters with their positions in the grid based on CharacterName enum
-  const characters: Character[] = Object.values(CharacterName).map((name, index) => {
-    // Calculate row and column based on the position in the enum
-    // The enum is organized in groups of 6 characters per row
-    const row = Math.floor(index / 6);
-    const col = index % 6;
+  // Define the characters based on CharacterName enum
+  const characters: Character[] = ALL_CHARACTERS.map((code, index) => {
     return {
       id: index + 1,
-      row,
-      col,
-      name,
+      characterCode: code as CharacterNameKeys,
     };
   });
 
@@ -55,10 +47,8 @@ export default function Home() {
         {characters.map((character) => (
           <CharacterCard
             key={character.id}
-            row={character.row}
-            col={character.col}
+            characterCode={character.characterCode}
             id={character.id}
-            name={character.name}
             isCollected={!!collected[character.id]}
             onToggleCollected={toggleCollected}
           />
