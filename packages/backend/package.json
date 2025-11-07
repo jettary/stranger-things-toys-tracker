@@ -1,7 +1,7 @@
 {
-  "name": "@kistt/backend",
+  "name": "@kinder-things-tracker/backend",
   "version": "0.0.1",
-  "description": "KiSTT Backend - NestJS API for Kinder Stranger Things Tracker",
+  "description": "Kinder-Things-Tracker Backend - NestJS API for Kinder Stranger Things Tracker",
   "author": "",
   "private": true,
   "license": "MIT",

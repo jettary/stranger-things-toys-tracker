@@ -1,7 +1,7 @@
 {
-  "name": "kistt",
+  "name": "kinder-things-tracker",
   "version": "1.0.0",
-  "description": "KiSTT - Kinder Stranger Things Tracker: A tool for tracking Kinder Joy Stranger Things toys collection",
+  "description": "Kinder-Things-Tracker: A tool for tracking Kinder Joy Stranger Things toys collection",
   "private": true,
   "workspaces": [
     "packages/*"

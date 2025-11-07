@@ -1,6 +1,6 @@
-# KiSTT - Kinder Stranger Things Tracker
+# Kinder-Things-Tracker
 
-KiSTT (Kinder Stranger Things Tracker) is a comprehensive tool for tracking and managing your collection of Kinder Joy Stranger Things toys.
+Kinder-Things-Tracker is a comprehensive tool for tracking and managing your collection of Kinder Joy Stranger Things toys.
 
 ## Project Overview
 
@@ -28,8 +28,8 @@ This project is a monorepo containing both frontend and backend applications:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/kistt.git
-   cd kistt
+   git clone https://github.com/yourusername/kinder-things-tracker.git
+   cd kinder-things-tracker
    ```
 
 2. Install dependencies for both applications:
@@ -66,7 +66,7 @@ npm run build
 ## Project Structure
 
 ```
-kistt/
+kinder-things-tracker/
 ├── packages/
 │   ├── backend/     # NestJS backend application
 │   └── frontend/    # PWA frontend application
