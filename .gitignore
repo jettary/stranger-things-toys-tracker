@@ -94,3 +94,8 @@ $RECYCLE.BIN/
 # Monorepo specific
 .turbo
 .nx/
+
+# Exclude specific files
+/packages/frontend/next-env.d.ts
+/packages/frontend/public/sw.js
+/packages/frontend/public/workbox-495fd258.js
