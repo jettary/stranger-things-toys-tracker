@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import CharacterCard from '../components/CharacterCard';
 import EggCodesModal from '../components/EggCodesModal';
+import ViewAllCodesModal from '../components/ViewAllCodesModal';
 import { ALL_CHARACTERS, CharacterNameKeys } from '@/constants/characters';
 import { getCharacterData, saveCharacterData, getCharacterCodes } from '@/utils/localStorage';
 
@@ -33,6 +34,9 @@ export default function Home() {
   // State for the egg codes modal
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterNameKeys | null>(null);
+  
+  // State for the view all codes modal
+  const [viewAllCodesModalOpen, setViewAllCodesModalOpen] = useState(false);
 
   // Load data from local storage on component mount
   useEffect(() => {
@@ -69,6 +73,11 @@ export default function Home() {
     setSelectedCharacter(characterCode);
     setModalOpen(true);
   };
+  
+  // Open the view all codes modal
+  const openViewAllCodesModal = () => {
+    setViewAllCodesModalOpen(true);
+  };
 
   // Save egg codes
   const saveEggCodes = (newCodes: string[]) => {
@@ -100,10 +109,13 @@ export default function Home() {
       
       <div className="mb-6 flex flex-col sm:flex-row sm:space-x-6">
         <p className="text-lg">
-          Collected: <span className="font-bold">{collectedCount}</span> of <span className="font-bold">{characters.length}</span> characters
-        </p>
-        <p className="text-lg">
-          Found: <span className="font-bold">{foundCount}</span> of <span className="font-bold">{characters.length}</span> characters
+          Collected: <span className="font-bold">{foundCount}</span> of <span className="font-bold">{characters.length}</span> characters
+          <button 
+            onClick={openViewAllCodesModal}
+            className="ml-4 text-blue-500 hover:text-blue-700 hover:underline text-sm font-medium"
+          >
+            view all codes
+          </button>
         </p>
       </div>
       
@@ -116,7 +128,6 @@ export default function Home() {
             isFound={!!found[character.characterCode]}
             onToggleFound={toggleFound}
             onEditCodes={openEggCodesModal}
-            eggCodes={codes[character.characterCode] || []}
           />
         ))}
       </div>
@@ -131,6 +142,14 @@ export default function Home() {
           onSave={saveEggCodes}
         />
       )}
+      
+      {/* View All Codes Modal */}
+      <ViewAllCodesModal
+        isOpen={viewAllCodesModalOpen}
+        onClose={() => setViewAllCodesModalOpen(false)}
+        codes={codes}
+        found={found}
+      />
     </div>
   );
 }
