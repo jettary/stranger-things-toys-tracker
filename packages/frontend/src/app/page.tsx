@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import CharacterCard from '../components/CharacterCard';
 import EggCodesModal from '../components/EggCodesModal';
-import { CharacterName, ALL_CHARACTERS, CharacterNameKeys } from '@/constants/characters';
+import { ALL_CHARACTERS, CharacterNameKeys } from '@/constants/characters';
 import { getCharacterData, saveCharacterData, getCharacterCodes } from '@/utils/localStorage';
 
 // Define the structure for character data
@@ -25,10 +25,10 @@ export default function Home() {
   const [collected, setCollected] = useState<Record<number, boolean>>({});
   
   // State for tracking which characters are found
-  const [found, setFound] = useState<Record<CharacterNameKeys, boolean>>({});
+  const [found, setFound] = useState<Record<CharacterNameKeys, boolean>>({} as any);
   
   // State for tracking egg codes
-  const [codes, setCodes] = useState<Record<CharacterNameKeys, string[]>>({});
+  const [codes, setCodes] = useState<Record<CharacterNameKeys, string[]>>({} as any);
   
   // State for the egg codes modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -113,8 +113,6 @@ export default function Home() {
             key={character.id}
             characterCode={character.characterCode}
             id={character.id}
-            isCollected={!!collected[character.id]}
-            onToggleCollected={toggleCollected}
             isFound={!!found[character.characterCode]}
             onToggleFound={toggleFound}
             onEditCodes={openEggCodesModal}

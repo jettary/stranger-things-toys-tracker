@@ -5,23 +5,16 @@ import { ALL_CHARACTERS, CharacterName, CharacterNameKeys } from '@/constants/ch
 interface CharacterCardProps {
   id: number;
   characterCode: CharacterNameKeys;
-  isCollected: boolean;
-  onToggleCollected: (id: number) => void;
   isFound?: boolean;
   onToggleFound?: (characterCode: CharacterNameKeys) => void;
   onEditCodes?: (characterCode: CharacterNameKeys) => void;
-  eggCodes?: string[];
 }
 
 export default function CharacterCard({
-  id,
   characterCode,
-  isCollected,
-  onToggleCollected,
   isFound = false,
   onToggleFound,
   onEditCodes,
-  eggCodes = [],
 }: CharacterCardProps) {
   // Get the index of the character in the enum
   const characterIndex = ALL_CHARACTERS.indexOf(characterCode);
@@ -41,7 +34,6 @@ export default function CharacterCard({
   const handleCardClick = (e: React.MouseEvent) => {
     // Only toggle collected if the click was directly on the card (not on a button)
     if (e.target === e.currentTarget || (e.target as HTMLElement).closest('.card-background')) {
-      onToggleCollected(id);
     }
   };
 
@@ -56,7 +48,6 @@ export default function CharacterCard({
       className={`
         relative aspect-[20/30] border rounded-lg overflow-hidden shadow-md 
         hover:shadow-lg transition-shadow cursor-pointer
-        ${isCollected ? 'ring-4 ring-green-500' : ''}
         ${isFound ? 'ring-4 ring-blue-500' : ''}
       `}
       onClick={handleCardClick}
@@ -73,24 +64,10 @@ export default function CharacterCard({
       {/* Character name */}
       <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-2 text-center">
         <p className="text-sm font-semibold truncate">{characterName}</p>
-        
-        {/* Display egg codes if available */}
-        {eggCodes && eggCodes.length > 0 && (
-          <p className="text-xs text-gray-300 truncate mt-1">
-            Codes: {eggCodes.join(', ')}
-          </p>
-        )}
       </div>
       
       {/* Action buttons */}
       <div className="absolute top-2 right-2 flex flex-col space-y-2">
-        {/* Collected indicator */}
-        {isCollected && (
-          <div className="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-            ✓
-          </div>
-        )}
-        
         {/* Found button */}
         {onToggleFound && (
           <button
