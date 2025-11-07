@@ -16,8 +16,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="bg-red-700 text-white p-4">
-          <h1 className="text-2xl font-bold">KiSTT</h1>
-          <p className="text-sm">Kinder Things</p>
+          <h1 className="text-2xl font-bold">Kinder-Things-Tracker</h1>
+          <p className="text-sm">Stranger Things Toy Collection</p>
         </header>
         <main className="container mx-auto p-4">
           {children}

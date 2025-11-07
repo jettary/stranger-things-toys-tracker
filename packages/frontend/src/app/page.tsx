@@ -1,89 +1,89 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 
-interface Toy {
+// Define the structure for character data
+interface Character {
   id: number;
+  row: number;
+  col: number;
   name: string;
-  series: string;
-  rarity: string;
-  imageUrl: string;
 }
 
 export default function Home() {
-  const [toys, setToys] = useState<Toy[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchToys = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get('http://localhost:3000/toys');
-        setToys(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching toys:', err);
-        setError('Failed to load toys. Please try again later.');
-        setLoading(false);
-      }
+  // Define the characters with their positions in the grid
+  const characters: Character[] = Array.from({ length: 24 }, (_, index) => {
+    const row = Math.floor(index / 6);
+    const col = index % 6;
+    return {
+      id: index + 1,
+      row,
+      col,
+      name: `Character ${index + 1}`,
     };
+  });
 
-    fetchToys();
-  }, []);
+  // State for tracking which characters are collected
+  const [collected, setCollected] = useState<Record<number, boolean>>({});
+
+  // Toggle collected status
+  const toggleCollected = (id: number) => {
+    setCollected(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  // Calculate the total number of collected characters
+  const collectedCount = Object.values(collected).filter(Boolean).length;
 
   return (
     <div className="py-8">
       <h2 className="text-3xl font-bold mb-6">Stranger Things Toys Collection</h2>
       
-      {loading && (
-        <div className="text-center py-10">
-          <p className="text-gray-500">Loading toys...</p>
-        </div>
-      )}
+      <div className="mb-6">
+        <p className="text-lg">
+          Collected: <span className="font-bold">{collectedCount}</span> of <span className="font-bold">24</span> characters
+        </p>
+      </div>
       
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      )}
-      
-      {!loading && !error && toys.length === 0 && (
-        <div className="text-center py-10">
-          <p className="text-gray-500">No toys found in your collection.</p>
-        </div>
-      )}
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {toys.map((toy) => (
-          <div key={toy.id} className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-            <div className="bg-gray-200 h-48 flex items-center justify-center">
-              {toy.imageUrl ? (
-                <img 
-                  src={toy.imageUrl} 
-                  alt={toy.name} 
-                  className="max-h-full max-w-full object-contain"
-                />
-              ) : (
-                <div className="text-gray-400">No image available</div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {characters.map((character) => {
+          // Calculate the position for the background image
+          // For 6 columns (0% to 100%), each step is 20% (100/5)
+          // For 4 rows (0% to 100%), each step is 33.33% (100/3)
+          const bgPositionX = `${character.col * 20}%`;
+          const bgPositionY = `${character.row * 33.33}%`;
+          
+          return (
+            <div 
+              key={character.id} 
+              className={`
+                relative aspect-square border rounded-lg overflow-hidden shadow-md 
+                hover:shadow-lg transition-shadow cursor-pointer
+                ${collected[character.id] ? 'ring-4 ring-green-500' : ''}
+              `}
+              onClick={() => toggleCollected(character.id)}
+            >
+              <div 
+                className="w-full h-full bg-cover bg-no-repeat"
+                style={{
+                  backgroundImage: `url('/540449214_790387417048489_8940474680171756389_n.jpg')`,
+                  backgroundSize: '600% 400%', // 6 columns, 4 rows
+                  backgroundPosition: `${bgPositionX} ${bgPositionY}`,
+                }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-2 text-center">
+                <p className="text-sm font-semibold truncate">{character.name}</p>
+              </div>
+              {collected[character.id] && (
+                <div className="absolute top-2 right-2 bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                  ✓
+                </div>
               )}
             </div>
-            <div className="p-4">
-              <h3 className="text-xl font-semibold mb-2">{toy.name}</h3>
-              <p className="text-gray-600 mb-1">Series: {toy.series}</p>
-              <p className="text-gray-600">
-                Rarity: 
-                <span className={
-                  toy.rarity === 'Common' ? 'text-green-600' : 
-                  toy.rarity === 'Uncommon' ? 'text-blue-600' : 
-                  toy.rarity === 'Rare' ? 'text-purple-600' : 
-                  'text-yellow-600'
-                }> {toy.rarity}</span>
-              </p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
