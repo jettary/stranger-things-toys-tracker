@@ -85,6 +85,36 @@ export default function Home() {
       codes: newCodesState
     });
   };
+  
+  // Associate a code with a character
+  const associateCodeWithCharacter = (code: string, characterCode: CharacterNameKeys, markAsFound: boolean) => {
+    // Update the codes state
+    const characterCodes = codes[characterCode] || [];
+    if (!characterCodes.includes(code)) {
+      const newCodesState = {
+        ...codes,
+        [characterCode]: [...characterCodes, code]
+      };
+      
+      setCodes(newCodesState);
+      
+      // If markAsFound is true, update the found state
+      let newFoundState = found;
+      if (markAsFound) {
+        newFoundState = {
+          ...found,
+          [characterCode]: true
+        };
+        setFound(newFoundState);
+      }
+      
+      // Save to local storage
+      saveCharacterData({
+        found: newFoundState,
+        codes: newCodesState
+      });
+    }
+  };
 
   // Calculate the total number of found characters
   const foundCount = Object.values(found).filter(Boolean).length;
@@ -134,6 +164,8 @@ export default function Home() {
         isOpen={viewAllCodesModalOpen}
         onClose={() => setViewAllCodesModalOpen(false)}
         codes={codes}
+        foundCharacters={found}
+        onAssociateCodeWithCharacter={associateCodeWithCharacter}
       />
     </div>
   );
