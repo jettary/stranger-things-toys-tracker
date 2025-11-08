@@ -1,18 +1,28 @@
 'use client';
 
+import { useState } from 'react';
 import { CharacterName, CharacterNameKeys } from '@/constants/characters';
+import CharacterSelectionModal from './CharacterSelectionModal';
 
 interface ViewAllCodesModalProps {
   isOpen: boolean;
   onClose: () => void;
   codes: Partial<Record<CharacterNameKeys, string[]>>;
+  foundCharacters: Partial<Record<CharacterNameKeys, boolean>>;
+  onAssociateCodeWithCharacter: (code: string, characterCode: CharacterNameKeys, markAsFound: boolean) => void;
 }
 
 export default function ViewAllCodesModal({
   isOpen,
   onClose,
   codes,
+  foundCharacters,
+  onAssociateCodeWithCharacter,
 }: ViewAllCodesModalProps) {
+  // State for character selection modal
+  const [characterSelectionModalOpen, setCharacterSelectionModalOpen] = useState(false);
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
+
   if (!isOpen) return null;
 
   // Transform data structure from character-to-codes to code-to-characters
@@ -48,7 +58,20 @@ export default function ViewAllCodesModal({
   // Count total not found codes
   const totalNotFoundCodes = notFoundCodes.length;
 
-  console.log({totalFoundCodes, totalNotFoundCodes});
+  // Handle clicking on a not found code
+  const handleNotFoundCodeClick = (code: string) => {
+    setSelectedCode(code);
+    setCharacterSelectionModalOpen(true);
+  };
+
+  // Handle character selection
+  const handleSelectCharacter = (characterCode: CharacterNameKeys, markAsFound: boolean) => {
+    if (selectedCode) {
+      onAssociateCodeWithCharacter(selectedCode, characterCode, markAsFound);
+      setCharacterSelectionModalOpen(false);
+      setSelectedCode(null);
+    }
+  };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Only close if the backdrop itself was clicked, not its children
@@ -113,7 +136,11 @@ export default function ViewAllCodesModal({
           {notFoundCodes.length > 0 ? (
             <ul className="grid grid-cols-5 gap-2 px-2">
               {notFoundCodes.map((code) => (
-                <li key={code} className="text-center py-1 bg-gray-50 rounded">
+                <li 
+                  key={code} 
+                  className="text-center py-1 bg-gray-50 rounded cursor-pointer hover:bg-gray-100 transition-colors"
+                  onClick={() => handleNotFoundCodeClick(code)}
+                >
                   <span className="font-medium">{code}</span>
                 </li>
               ))}
@@ -132,6 +159,17 @@ export default function ViewAllCodesModal({
           </button>
         </div>
       </div>
+      
+      {/* Character Selection Modal */}
+      {selectedCode && (
+        <CharacterSelectionModal
+          isOpen={characterSelectionModalOpen}
+          onClose={() => setCharacterSelectionModalOpen(false)}
+          onSelectCharacter={handleSelectCharacter}
+          code={selectedCode}
+          foundCharacters={foundCharacters}
+        />
+      )}
     </div>
   );
 }

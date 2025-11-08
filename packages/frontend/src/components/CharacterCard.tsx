@@ -48,7 +48,7 @@ export default function CharacterCard({
       className={`
         relative aspect-[20/30] border rounded-lg overflow-hidden shadow-md 
         hover:shadow-lg transition-shadow cursor-pointer
-        ${isFound ? 'ring-4 ring-blue-500' : ''}
+        ${isFound ? 'ring-4 ring-emerald-400' : ''}
       `}
       onClick={handleCardClick}
     >
@@ -72,12 +72,12 @@ export default function CharacterCard({
         {onToggleFound && (
           <button
             className={`w-6 h-6 rounded-full flex items-center justify-center ${
-              isFound ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'
+              isFound ? 'bg-emerald-400 text-white' : 'text-gray-600'
             }`}
             onClick={(e) => handleButtonClick(e, () => onToggleFound(characterCode))}
             title={isFound ? "Mark as not found" : "Mark as found"}
           >
-            👁️
+            ✅
           </button>
         )}
         
