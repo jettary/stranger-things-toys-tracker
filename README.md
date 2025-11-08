@@ -95,4 +95,6 @@ These icons are referenced in the `manifest.json` file and are required for the 
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0) - see the LICENSE file for details.
+
+This license allows free usage of the software as is, but forbids any modifications. You must give appropriate credit when using this software.

@@ -2,6 +2,7 @@
   "name": "@kinder-things-tracker/frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "CC-BY-ND-4.0",
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",

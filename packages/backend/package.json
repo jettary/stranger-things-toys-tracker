@@ -4,7 +4,7 @@
   "description": "Kinder-Things-Tracker Backend - NestJS API for Kinder Stranger Things Tracker",
   "author": "",
   "private": true,
-  "license": "MIT",
+  "license": "CC-BY-ND-4.0",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

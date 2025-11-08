@@ -28,7 +28,7 @@
     "collection"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "CC-BY-ND-4.0",
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
